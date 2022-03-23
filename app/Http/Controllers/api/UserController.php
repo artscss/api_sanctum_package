@@ -48,16 +48,17 @@ class UserController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         // update user = post -> api/users/1     {{params}} _method => PUT    {{url}}/users/1?_method=PUT
+        
         $request->validate([
             "name" => "required|string",
             "email" => "required|email",
             "password" => "required",
             "phone" => "min:11|numeric",
         ]);
-        $data = User::find($id);
+        $data = $request->user();
         $data->name = $request->name;
         $data->email = $request->email;
         $data->password = Hash::make($request->password);
@@ -75,7 +76,7 @@ class UserController extends Controller
             $data->image = $image_name;
         }
         $data->save();
-        $data->image = public_path("storage/upload/images/$data->image");
+        $data->image = asset("storage/upload/images/$data->image");
         return response()->json(["data" => $data, "message" => "success", "status" => 200]);
     }
 
