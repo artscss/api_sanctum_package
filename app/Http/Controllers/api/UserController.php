@@ -75,7 +75,7 @@ class UserController extends Controller
             $data->image = $image_name;
         }
         $data->save();
-        $data->image = secure_asset("storage/upload/images/$data->image");
+        $data->image = public_path("storage/upload/images/$data->image");
         return response()->json(["data" => $data, "message" => "success", "status" => 200]);
     }
 
