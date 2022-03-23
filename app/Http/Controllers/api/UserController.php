@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
+    public function geturl()
+    {
+        return response()->json(asset("taha"));
+    }
     public function index()
     {
         // show all users []
@@ -66,13 +70,13 @@ class UserController extends Controller
         if($request->hasFile("image") && $data->image !== null)
         {
             if($data->image !== "avatar.png"){
-                unlink(public_path("storage/upload/images/") . $data->image);
+                unlink(public_path("images/") . $data->image);
             }
 
             $image = $request->file("image");
             $extension = $image->getClientOriginalExtension();
             $image_name = uniqid() . "." . $extension;
-            $image->move(public_path("storage/upload/images/"), $image_name);
+            $image->move(public_path("images/"), $image_name);
             $data->image = $image_name;
         }
         $data->save();
