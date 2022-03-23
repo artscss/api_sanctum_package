@@ -20,8 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("geturl", [UserController::class, "geturl"]);
-
 // register new user
 Route::post("register", [AuthController::class, "register"]);
 
@@ -32,18 +30,21 @@ Route::group(["middleware" => ["auth:sanctum"]], function(){
 
 // get all users
 Route::get("users", [UserController::class, "index"]);
-
 // get one user
-Route::get("users/{id}", [UserController::class, "show"]);
-
+Route::get("user", [UserController::class, "show"]);
 // update user
-Route::post("users/{id}", [UserController::class, "update"]);
+Route::post("edit_user", [UserController::class, "update"]);
 
-// update user
-Route::delete("users/{id}", [UserController::class, "destroy"]);
+
+
+
+
+
+// delete user
+Route::delete("user", [UserController::class, "destroy"]);
 
 // search
-Route::get("users/search/{name}", [UserController::class, "search"]);
+// Route::get("users/search/{name}", [UserController::class, "search"]);
 
 // logout user
 Route::post("logout", [AuthController::class, "logout"]);

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('age')->nullable();
             $table->integer('role')->default(0);
-            $table->string('image')->nullable()->default("avatar.png");
+            $table->string('image')->nullable()->default("https://www.nicepng.com/png/full/804-8049853_med-boukrima-specialist-webmaster-php-e-commerce-web.png");
             $table->rememberToken();
             $table->timestamps();
         });
