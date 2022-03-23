@@ -62,9 +62,9 @@ class UserController extends Controller
         $data->email = $request->email;
         $data->password = Hash::make($request->password);
 
-        if($request->hasFile("image"))
+        if($request->hasFile("image") && $data->image !== null)
         {
-            if($data->image !== null){
+            if($data->image !== "avatar.png"){
                 unlink(public_path("storage/upload/images/") . $data->image);
             }
 
@@ -72,10 +72,10 @@ class UserController extends Controller
             $extension = $image->getClientOriginalExtension();
             $image_name = uniqid() . "." . $extension;
             $image->move(public_path("storage/upload/images/"), $image_name);
+            $data->image = $image_name;
         }
-
-        $data->image = $image_name;
         $data->save();
+        $data->image = secure_asset("storage/upload/images/$data->image");
         return response()->json(["data" => $data, "message" => "success", "status" => 200]);
     }
 
