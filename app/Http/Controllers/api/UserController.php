@@ -21,21 +21,21 @@ class UserController extends Controller
         }
     }
 
-    public function store(Request $request)
-    {
-        // insert new user = post -> api/users
-        $request->validate([
-            "name" => "required|string",
-            "email" => "required|email",
-            "password" => "required",
-        ]);
-        $data = new User;
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->password = Hash::make($request->password);
-        $data->save();
-        return response()->json(["data" => $data, "message" => "success", "status" => 200]);
-    }
+    // public function store(Request $request)
+    // {
+    //     // insert new user = post -> api/users
+    //     $request->validate([
+    //         "name" => "required|string",
+    //         "email" => "required|email",
+    //         "password" => "required",
+    //     ]);
+    //     $data = new User;
+    //     $data->name = $request->name;
+    //     $data->email = $request->email;
+    //     $data->password = Hash::make($request->password);
+    //     $data->save();
+    //     return response()->json(["data" => $data, "message" => "success", "status" => 200]);
+    // }
 
     public function show($id)
     {
@@ -55,11 +55,26 @@ class UserController extends Controller
             "name" => "required|string",
             "email" => "required|email",
             "password" => "required",
+            "phone" => "min:11|numeric",
         ]);
         $data = User::find($id);
         $data->name = $request->name;
         $data->email = $request->email;
         $data->password = Hash::make($request->password);
+
+        if($request->hasFile("image"))
+        {
+            if($data->image !== null){
+                unlink(public_path("storage/upload/images/") . $data->image);
+            }
+
+            $image = $request->file("image");
+            $extension = $image->getClientOriginalExtension();
+            $image_name = uniqid() . "." . $extension;
+            $image->move(public_path("storage/upload/images/"), $image_name);
+        }
+
+        $data->image = $image_name;
         $data->save();
         return response()->json(["data" => $data, "message" => "success", "status" => 200]);
     }
@@ -77,7 +92,7 @@ class UserController extends Controller
 
     public function search($name)
     {
-        // search
+        // search for user
         $data = User::where("name", "like", "%" . $name . "%")->get();
         if(count($data) > 0){
             return response()->json(["data" => $data, "message" => "success", "status" => 200]);

@@ -35,7 +35,7 @@ Route::get("users", [UserController::class, "index"]);
 Route::get("users/{id}", [UserController::class, "show"]);
 
 // update user
-Route::put("users/{id}", [UserController::class, "update"]);
+Route::post("users/{id}", [UserController::class, "update"]);
 
 // update user
 Route::delete("users/{id}", [UserController::class, "destroy"]);
