@@ -31,19 +31,29 @@ class UserController extends Controller
 
     public function update(Request $request)
     {        
+        $request->validate([
+            "name" => "string|min:6",
+            "email" => "email",
+            "phone" => "min:11|numeric",
+            "image" => "url",
+            "age" => "between:11,80|numeric",
+            "address" => "string",
+        ]);
+
         $data = $request->user();
 
         if(!empty($request->name)){
             $data->name = $request->name;
         }
-
         if(!empty($request->email)){
             $data->email = $request->email;
         }
         if(!empty($request->password)){
             $data->password = Hash::make($request->password);
         }
-        
+        if(!empty($request->phone)){
+            $data->phone = $request->phone;
+        }
         // if($request->hasFile("image") && $data->image !== null)
         // {
         //     if($data->image !== "avatar.png"){
@@ -59,6 +69,12 @@ class UserController extends Controller
         
         if(!empty($request->image)){
             $data->image = $request->image;
+        }
+        if(!empty($request->age)){
+            $data->age = $request->age;
+        }
+        if(!empty($request->address)){
+            $data->address = $request->address;
         }
 
         $data->save();
