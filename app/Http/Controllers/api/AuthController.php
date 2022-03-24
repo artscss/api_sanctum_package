@@ -19,6 +19,7 @@ class AuthController extends Controller
             "email" => "required|string|unique:users|email",
             "password" => "required|string|confirmed",
         ]);
+
         $user = User::create([
             "name" => $fields["name"],
             "email" => Str::of($fields["email"])->lower(),
@@ -39,7 +40,7 @@ class AuthController extends Controller
             "password" => "required|string",
         ]);
 
-        $user = User::where("email", $fields["email"])->first();
+        $user = User::where("email", Str::of($fields["email"])->lower())->first();
 
         if(!$user || !Hash::check($fields["password"], $user->password)){
             return response("data error", 401);
