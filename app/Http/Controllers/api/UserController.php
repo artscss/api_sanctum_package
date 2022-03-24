@@ -32,17 +32,17 @@ class UserController extends Controller
     public function update(Request $request)
     {        
         $request->validate([
-            "name" => "string|min:6",
-            "email" => "email",
-            "phone" => "min:11|numeric",
-            "image" => "url",
-            "age" => "between:11,80|numeric",
-            "address" => "string",
+            "name" => "string|nullable|min:6",
+            "email" => "email|nullable",
+            "phone" => "min:11|numeric|nullable",
+            "image" => "url|nullable",
+            "age" => "between:11,80|numeric|nullable",
+            "address" => "string|nullable",
         ]);
 
         $data = $request->user();
 
-        if(!empty($request->name)){
+        if(!empty($request->name) ){
             $data->name = $request->name;
         }
         if(!empty($request->email)){
