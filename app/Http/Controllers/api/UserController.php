@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -32,9 +33,9 @@ class UserController extends Controller
     public function update(Request $request)
     {        
         $request->validate([
-            "name" => "string|nullable|min:6",
+            "name" => "string|nullable|min:3",
             "email" => "email|nullable",
-            "phone" => "min:11|numeric|nullable",
+            "phone" => "min:11|string|nullable",
             "image" => "url|nullable",
             "age" => "between:11,80|numeric|nullable",
             "address" => "string|nullable",
@@ -46,7 +47,7 @@ class UserController extends Controller
             $data->name = $request->name;
         }
         if(!empty($request->email)){
-            $data->email = $request->email;
+            $data->email = Str::of($request->email)->lower();
         }
         if(!empty($request->password)){
             $data->password = Hash::make($request->password);
