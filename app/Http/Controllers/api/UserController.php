@@ -70,9 +70,9 @@ class UserController extends Controller
             }
     
             if($request->hasFile("image")){
-                if($data->image !== "avatar.png"){
-                    unlink(public_path("images/") . $data->image);
-                }
+                // if($data->image !== "avatar.png"){
+                //     unlink(public_path("images/") . $data->image);
+                // }
                 $image = $request->file("image");
                 $extension = $image->getClientOriginalExtension();
                 $image_name = uniqid() . "." . $extension;
