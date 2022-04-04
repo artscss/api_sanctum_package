@@ -79,10 +79,8 @@ class UserController extends Controller
                 $image->move(public_path("images/"), $image_name);
                 $data->image = $image_name;
             }
-
-            $path = public_path("images/") . $image_name;
-            
             $data->save();
+            $path = public_path("images/") . $image_name;
             return response()->json(["data" => $data, "message" => "success", "status" => 200, "path" => $path], 200);
         }
         return response()->json(["message" => "errors"], 400);
